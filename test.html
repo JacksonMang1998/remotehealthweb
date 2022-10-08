@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Responsive Dashboard using HTML CSS AND JAVASCRIPT</title>
+   <!--MATERIAL CDN-->
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+   <link rel="stylesheet" href="./static/styles/style.css">
+
+	 <!-- Bootstraps Java Scipts Links -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+
+    <!-- JQuery links  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://pubnub.github.io/eon/lib/eon.js"></script>
+
+
+</head>
+<body>
+   <div class="container" id="theme">
+       <aside>
+           <div class="top">
+               <div class="logo">
+                   <img src="./image/vitals2go.png">
+                   <h2>VITALS <span class="danger">2</span> GO</h2>
+               </div>
+               <div class="close" id="close-btn">
+                   <span class="material-icons-sharp">close</span>    
+               </div>
+           </div>
+           <div class="sidebar">
+               <a href="index.html" class="active">
+                   <span class="material-icons-sharp">grid_view</span>
+                   <h3>Dashboard</h3>
+               </a>
+               <a href="index2.html">
+                   <span class="material-icons-sharp">person</span>
+                   <h3>Background</h3>
+               </a>
+               <a href="index3.html">
+                   <span class="material-icons-sharp">vaccines</span>
+                   <h3>Allergies</h3>
+               </a>
+               <a href="index4.html">
+                   <span class="material-icons-sharp">mail</span>
+                   <h3>Message</h3>
+                   <span class="message-count">26</span>
+               </a>
+               <a href="index5.html">
+               <span class="material-icons-sharp">report</span>
+               <h3>Reports</h3>
+                </a>
+               <a href="index6.html"  >
+                   <span class="material-icons-sharp">settings</span>
+                   <h3>Setting</h3>
+               </a>
+               <a href="index7.html">
+                   <span class="material-icons-sharp">add</span>
+                   <h3>Add Product</h3>
+               </a>
+               <a href="Welcomepage.html">
+                   <span class="material-icons-sharp">logout</span>
+                   <h3>Logout</h3>
+               </a>
+           </div>
+       </aside>
+       <!--------- END OF ASIDE------------->
+       <main>
+           <h1>Dashboard</h1>
+           <div class="date">
+               <div id="current_date"></div>
+                   <script>
+                   date = new Date();
+                   year = date.getFullYear();
+                   month = date.getMonth() + 1;
+                   day = date.getDate();
+                   document.getElementById("current_date").innerHTML = month + "/" + day + "/" + year;
+                   </script>
+           </div>
+           <div class="insights">
+               <div class="sales">
+                   <span class="material-icons-sharp">monitor_heart</span>
+                   <div class="middle">
+                       <div class="left">
+                           <h3>Blood Pressure</h3>
+                           <!--<h1>180/68</h1>-->
+          <div class="container-fluid">
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="container-fluid" id="data-temperature">
+
+            </div>
+        </div>
+    </div>                            
+ <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-5 jumbotron p-2 mx-1">
+                <h1 class="sensor1"> Temperature (ºF) : </h1>
+            </div>
+            <br>
+
+            <div class="col-5 jumbotron p-2 mx-1">
+                <h1 class="sensor2">Heart Rate :</h1>
+            </div>
+                           
+     <!--INSERT BLOOD PRESSURE JSON-->
+                           <script>
+        var chartTemperatue;
+        var chartHeartbeat;
+
+        function requestData()
+        {
+            // Ajax call to get the Data from Flask
+            var requests = $.get('/data');
+
+            var tm = requests.done(function (result)
+            {
+                // Temperature
+                var seriesTemperature = chartTemperatue.series[0],
+                    shiftTemperature = seriesTemperature.data.length > 20;
+
+                // Heartbeat
+                var seriesHeartbeat = chartHeartbeat.series[0],
+                    shiftHeartbeat = seriesTemperature.data.length > 20;
+
+                // Add the Point
+                // Time Temperature\
+                var data1 = [];
+                data1.push(result[0]);
+                data1.push(result[1]);
+
+
+                // Add the Point
+                // Time Heartbeat
+                var data2 = [];
+                data2.push(result[0]);
+                data2.push(result[2]);
+
+
+                chartTemperatue.series[0].addPoint(data1, true, shiftTemperature);
+                chartHeartbeat.series[0].addPoint(data2, true, shiftHeartbeat);
+                $(".sensor1").text("");
+                $(".sensor1").text("Temperature (ºF) : " + (data1[1]) );
+
+                $(".sensor2").text("");
+                $(".sensor2").text("Heart Rate: " +  (data2[1]) );
+
+                // call it again after one second
+                setTimeout(requestData, 2000);
+
+            });
+        }
+ </script>
+                           
+                       </div>
+                       <div class="progress">
+                       <svg>
+                           <circle cx='38' cy='38' r='36'></circle>
+                       </svg>
+                       <div class="number">
+                       <p></p> <!-- box 1 percentage-->
+                   </div>
+                   </div>
+                   </div>
+                   <small class="text-muted">Last Update: 1 seconds ago</small>
+               </div>
+               <!---------END OF SALES --------->
+               <div class="expenses">
+                   <span class="material-icons-sharp">thermostat</span>
+                   <div class="middle">
+                       <div class="left">
+                           <h3>Temperature</h3>
+                           <h1>98 F</h1>
+                       </div>
+                       <div class="progress">
+                       <svg>
+                           <circle cx='38' cy='38' r='36'></circle>
+                       </svg>
+                        <div class="number" >
+                       <p></p> <!-- box 2 percentage-->
+                       </div>
+                       </div>
+                   </div>
+                   <small class="text-muted">Last Updated: 1 seconds ago</small>
+               </div>
+               <!---------END OF EXPENSES --------->
+               <div class="income">
+                   <span class="material-icons-sharp">stacked_line_chart</span>
+                   <div class="middle">
+                       <div class="left">
+                           <h3>Oxygenation</h3>
+                           <h1>98 SpO2%</h1>
+                       </div>
+                       <div class="progress">
+                       <svg>
+                           <circle cx='38' cy='38' r='36'></circle>
+                       </svg>
+                       <div class="number">
+                       <p></p> <!--Percentage-->
+                       </div>
+                   </div>
+                   </div>
+                   <small class="text-muted">Last Updated: 1 seconds ago</small>
+               </div>
+               <!---------END OF INCOME --------->
+               <div class="fall">
+                   <span class="material-icons-sharp">settings_accessibility</span>
+                   <div class="middle">
+                       <div class="left">
+                           <h3>Fall Sensor</h3>
+                           <h1>3ft</h1>
+                       </div>
+                       <div class="progress">
+                       <svg>
+                           <circle cx='38' cy='38' r='36'></circle>
+                       </svg>
+                       <div class="number">
+                       <p></p> <!--Percentage-->
+                   </div>
+                   </div>
+                   </div>
+                   <small class="text-muted">Last Updated: 1 seconds ago</small>
+               </div>
+               <!---------END OF HEARTRATE------->
+               <div class="pulse">
+                   <span class="material-icons-sharp">settings_accessibility</span>
+                   <div class="middle">
+                       <div class="left">
+                           <h3>Pulse</h3>
+                           <h1>49 Bpm</h1>
+                       </div>
+                       <div class="progress">
+                       <svg>
+                           <circle cx='38' cy='38' r='36'></circle>
+                       </svg>
+                       <div class="number">
+                       <p></p> <!--Percent pulse-->
+                   </div>
+                   </div>
+                   </div>
+                   <small class="text-muted">Last Updated: 1 seconds ago</small>
+               </div>
+               <!--------- END OF PULSE---------->
+           </div>
+           <!---------- END OF INSIGHTS--------->
+           <div class="recent-orders">
+               <h2>Vital Graph</h2>
+               <table>
+                   <thead>
+                       <tr>
+                           <th>Product Name</th>
+                           <th>Status</th>
+                       </tr>
+                   </thead>
+                   <tbody>
+               </table>
+               <a href="#">Show All</a>
+           </div>
+       </main>
+       <!------------END OF MAIN--------------->
+       <div class="right">
+           <div class="top">
+            <button id="menu-btn" onclick="darkmode()">
+                <!---->
+                <div class="theme-toggler">
+                    <p>Dark Mode</p>
+                    <span class="material-icons-sharp">dark_mode</span>
+                </div>
+                <!---->
+            </button>
+               <div class="profile">
+                   <div class="info"> 
+                       <p>Hey, <b> Daniel</b></p>
+                       <small class="text-muted">Patient</small>
+                   </div>
+                   <div class="profile-photo">
+                       <img src="./image/profilepic.jpg">
+                   </div>
+               </div>
+           </div>
+            <!----- END OF TOP------->
+            <div class="recent-updates">
+               <h2>Recent Updates</h2>
+               <div class="updates">
+                   <div class="update">
+                       <div class="profile-photo">
+                           <img src="./image/pic2.jpg">
+                       </div>
+                       <div class="message">
+                            <p><b>Mike Tyson</b> Received his order of METH.</p>
+                           <small class="text-muted">2 minutes ago</small>
+                       </div>
+                   </div>
+                   <div class="update">
+                       <div class="profile-photo">
+                           <img src="./image/pic3.jpeg">
+                       </div>
+                       <div class="message">
+                            <p><b>Mike Tyson</b> Received his order of candy.</p>
+                           <small class="text-muted">2 minutes ago</small>
+                       </div>
+                   </div>
+                   <div class="update">
+                       <div class="profile-photo">
+                           <img src="./image/pic4.jpg">
+                       </div>
+                       <div class="message">
+                            <p><b>Mike Tyson</b> Received his order of weed.</p>
+                           <small class="text-muted">2 minutes ago</small>
+                       </div>
+                   </div>
+            </div>
+       </div>
+       <!------------- END OF RECENT UDPATES ------------>
+       <div class="sales-analytics">
+           <h2>Memos</h2>
+           <div class="item online">
+               <div class="icon">
+                   <span class="material-icons-sharp">shopping_cart</span>
+               </div>
+               <div class="right">
+                   <div class="info">
+                       <h3>MRI appt.</h3>
+                       <small class="text-muted"> Last 1 Hours</small>
+                   </div>
+                   <h5 class="success">On Time</h5>   <!-- box 1 percentage-->
+                   <h3>10/5/2022</h3>
+               </div>
+           </div>
+           <div class="item offline">
+               <div class="icon">
+                   <span class="material-icons-sharp">local_mall</span>
+               </div>
+               <div class="right">
+                   <div class="info">
+                       <h3>EKG appt.</h3>
+                       <small class="text-muted"> Last 24 Hours</small>
+                   </div>
+                   <h5 class="danger">Late</h5>
+                   <h3>9/30/2022</h3>
+               </div>
+           </div>
+           <div class="item customers">
+               <div class="icon">
+                   <span class="material-icons-sharp">person</span>
+               </div>
+               <div class="right">
+                   <div class="info">
+                       <h3>Medication</h3>
+                       <small class="text-muted"> Last 4 Hours</small>
+                   </div>
+                   <h5 class="success">Ready</h5>
+                   <h3>10/2/2022</h3>
+               </div>
+           </div>
+           <div class="item add-product">
+               <div>
+                   <span class="material-icons-sharp">add</span>
+                   <h3>Add Product</h3>
+               </div>
+           </div>
+       </div>
+       <!--------- END OF MEMOS------------>
+   </div>
+</div>
+   <script src="./Orders.js"> </script>
+   <script src="./index.js"> </script>
+</html>
