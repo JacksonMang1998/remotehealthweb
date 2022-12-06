@@ -1,66 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+<!---->
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://pubnub.github.io/eon/lib/eon.js"></script>
+<script src="https://kit.fontawesome.com/4c5fff903e.js" crossorigin="anonymous"></script>
+
+<style>
+    .img{
+        background-image : url("https://img.freepik.com/free-vector/clean-medical-background_53876-116875.jpg?w=2000");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: fixed;
+        height:100vh;
+        padding:10% 40% 10% 40%;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-weight: bolder;
+    }
+    [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+        background:#7380ec;
+        border:none;
+        font-size: 15px;
+        font-weight: bold;
+        width: 14rem;
+        height: 2rem;
+        color:white;
+        border-radius: 0.4rem;
+    }
+</style>
 <head>
-    <title>Signup</title>
-    <meta charset ="UTF-8">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-    body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
-    body, html {
-      height: 100%;
-      color: #777;
-      line-height: 1.8;
-    }
-    .bgimg-1 {
-      background-attachment: fixed;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: 1920px 936px;
-    }
-    .bgimg-1 {
-      background-image: url("https://img.freepik.com/free-vector/clean-medical-background_53876-116875.jpg?w=2000");
-      min-height: 100%;
-    }
-
-    </style>
-    <script src= "https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"defer></script>
-    <script src = "/js.validation.js" defer></script>
-
-  </head>
-  <body>
-
-
-
-
-    <div class="bgimg-1 w3-display-container w3-opacity-min" >
-      <div class="w3-display-middle" style="white-space:nowrap">
-        <div>
-      <h1 class="w3-center w3-text-black">LOGIN</h1>
-
-          <form action = "main" method = "post" id = "signup" novalidate>
-          <div class="w3-center w3-text-black">
-
-              <label for = "email">Email</label><br>
-              <input type ="email" id="email" name ="email"><br>
-
-              <label for="password">Password</label><br>
-              <input type="password" id="password" name="password"><br>
-
-              <div class="w3-center w3-text-black">
-              <style a:hover{color:red}></style>
-              <a href="signUp">Register new account</a></div><br>
-
-              <button class="w3-button w3-padding-large w3-light-grey">LOGIN</button>
-              </div>
-
-                   </form>
-              </div>
-        </div>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <div class="container-fluid img text-justify text-center">
+            <h1 class="a">Login</h1>
+            <form method="POST" action="">
+                {{ form.hidden_tag()}}<br>
+                {{ form.username }}<br><br>
+                {{ form.password }}<br>
+                <br>
+                <div class="button">
+                {{ form.submit }}
+                </div><br>
+             <a href="{{ url_for('register') }}">Not registered yet? Create an Account</a>
+            </form>
+            
     </div>
+    </div>
+    
+     
+
+    
+</body>
 
 
-
-  </body>
-  </html>
+</html>
